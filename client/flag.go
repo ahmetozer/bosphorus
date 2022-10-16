@@ -23,10 +23,15 @@ type connType string
 type connectionString struct {
 	localAddr   string
 	remmoteAddr string
-	host        string
+	url         string
 }
 
 func parseConnectionString(config string) (connectionString, error) {
+
+	// Example connection string per argument
+	// 1 localAddr					2 host						3 remoteAddr
+	// localhost:8119;http://nyc-sv-nss.ahmet.engineer/ws/tcp;localhost:8118
+
 	s := strings.Split(config, ";")
 
 	if len(s) != 3 {
@@ -35,7 +40,7 @@ func parseConnectionString(config string) (connectionString, error) {
 
 	return connectionString{
 		localAddr:   s[0],
-		host:        s[1],
+		url:         s[1],
 		remmoteAddr: s[2],
 	}, nil
 

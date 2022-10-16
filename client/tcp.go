@@ -34,7 +34,7 @@ func tcpListener(c connectionString, wg *sync.WaitGroup) {
 	// close listener
 	defer listen.Close()
 	defer wg.Done()
-	log.Printf("tcp: %s <=> %s <=> %s", c.localAddr, c.host, c.remmoteAddr)
+	log.Printf("tcp: %s <=> %s <=> %s", c.localAddr, c.url, c.remmoteAddr)
 
 	for {
 		conn, err := listen.Accept()
@@ -75,5 +75,5 @@ func handleTCPrequest(tcpConn net.Conn, c connectionString) {
 }
 
 func newTCPURL(c connectionString) string {
-	return fmt.Sprintf("%s?type=tcp&addr=%s", c.host, c.remmoteAddr)
+	return fmt.Sprintf("%s?connType=tcp&remoteAddr=%s", c.url, c.remmoteAddr)
 }

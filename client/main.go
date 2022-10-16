@@ -5,10 +5,10 @@ import (
 	"sync"
 )
 
-func Main(args []string) {
+func Start(args []string) {
 
 	f := flag.NewFlagSet("client", flag.ExitOnError)
-	f.Var(&tcpFlag, "tcp", "tunnel example localhost:8022;ahmet.engineer;127.0.0.1:8118")
+	f.Var(&tcpFlag, "tcp", "tunnel example localhost:8022;ahmet.engineer;127.0.0.1:22")
 	f.Parse(args)
 
 	wg := new(sync.WaitGroup)
