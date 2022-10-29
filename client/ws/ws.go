@@ -1,4 +1,4 @@
-package client
+package ws
 
 import (
 	"context"
@@ -11,8 +11,8 @@ import (
 )
 
 const (
-	tcpKeepAliveInterval = 10 * time.Second
-	defaultDialTimeout   = 15 * time.Second
+	tcpKeepAliveInterval = 3 * time.Second
+	defaultDialTimeout   = 5 * time.Second
 )
 
 var wsPortMap = map[string]string{"ws": "80", "wss": "443", "http": "80", "https": "443"}
@@ -49,7 +49,7 @@ const (
 	quicSupported
 )
 
-func newWSSocket(wsConfig *websocket.Config) (net.Conn, error) {
+func NewWSSocket(wsConfig *websocket.Config) (net.Conn, error) {
 	var conn net.Conn
 	var err error
 	ctx := context.TODO()

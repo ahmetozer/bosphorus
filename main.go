@@ -3,8 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/ahmetozer/wstransit/client"
-	"github.com/ahmetozer/wstransit/server"
+	"github.com/ahmetozer/wstransit/cmd"
 )
 
 func main() {
@@ -16,9 +15,9 @@ func main() {
 
 	switch os.Args[1] {
 	case "client":
-		client.Start(os.Args[2:])
+		cmd.Client(os.Args[2:])
 	case "server":
-		server.Start(os.Args[2:])
+		cmd.Server(os.Args[2:])
 	default:
 		println(help)
 	}
