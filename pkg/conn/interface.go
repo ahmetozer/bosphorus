@@ -32,7 +32,6 @@ func NewURL(c ConnectionString) string {
 	}
 	urlA.RawQuery = values.Encode()
 
-	fmt.Printf("url %s\n", urlA)
 	return urlA.String()
 }
 

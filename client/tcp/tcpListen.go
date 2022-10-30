@@ -25,22 +25,22 @@ func tcpListener(c conn.ConnectionString, wg *sync.WaitGroup) {
 	defer wg.Done()
 	log.Printf("tcp: %s <=> %s <=> %s", c.LocalAddr, c.Url, c.RemmoteAddr)
 
-	remote := conn.NewURL(c)
-
 	for {
-		conn, err := listen.Accept()
+		tcpconn, err := listen.Accept()
+
 		if err != nil {
 			log.Fatalf("unable to accept tcp connection for '%s' :%s", c.LocalAddr, err)
 		}
 
-		go handleTCPrequest(conn, c, remote)
+		go handleTCPrequest(tcpconn, c)
 	}
 }
 
-func handleTCPrequest(tcpConn net.Conn, c conn.ConnectionString, remote string) {
+func handleTCPrequest(tcpConn net.Conn, c conn.ConnectionString) {
 	defer tcpConn.Close()
 	log.Printf("new connection: %s", tcpConn.RemoteAddr())
-
+	c.Id = conn.GenerateConnID()
+	remote := conn.NewURL(c)
 	wsConfig, err := websocket.NewConfig(remote, remote)
 	if err != nil {
 		log.Printf("error %s", err)
