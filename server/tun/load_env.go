@@ -14,8 +14,8 @@ import (
 
 var (
 	tunIPv6Cidr string
-	ipv6TunNet  *net.IPNet
-	ipv6TunIp   net.IP
+	tunIpv6Net  *net.IPNet
+	tunIpv6Ip   net.IP
 )
 
 func init() {
@@ -39,19 +39,20 @@ func envIpv6Cidr() {
 		log.Printf("TUN_IPV6_CIDR is not asigned, auto value used\n")
 	}
 
-	release := make([]bool, 1024)
-	release[0] = true
-	ipv6TunIp, ipv6TunNet, err = net.ParseCIDR(tunIPv6Cidr)
+	tunIpv6Ip, tunIpv6Net, err = net.ParseCIDR(tunIPv6Cidr)
 	if err != nil {
 		log.Fatalf("Error: %s", err)
 	}
 
 	s := strings.Split(tunIPv6Cidr, "/")
-	cidrSize, _ := strconv.Atoi(s[1])
+	cidrSize, err := strconv.Atoi(s[1])
+	if err != nil {
+		log.Fatalf("Error cidrSize: %s\n", err)
+	}
 	if cidrSize > 80 {
 		log.Fatalf("TUN_IPV6_CIDR '%d' size is low. cidr range must bigger than 80\n", cidrSize)
 	}
 
-	log.Printf("TUN_IPV6_CIDR: %s/%s", &ipv6TunNet.IP, s[1])
+	log.Printf("TUN_IPV6_CIDR: %s/%s\n", &tunIpv6Net.IP, s[1])
 
 }
