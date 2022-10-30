@@ -7,11 +7,15 @@ import (
 	"time"
 )
 
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
+
 func GenerateConnID() string {
 	timeInt := big.NewInt(time.Now().UnixMilli())
 
 	// 1951700038 epoch can represent as UJFORg
-	time := base64.RawURLEncoding.EncodeToString(timeInt.Bytes())
+	time := base64.RawStdEncoding.EncodeToString(timeInt.Bytes())
 
 	const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
