@@ -51,7 +51,6 @@ func parseTCPConnectionString(config string) (conn.ConnectionString, error) {
 		Url:         s[1],
 		RemmoteAddr: s[2],
 		Type:        conn.TCP,
-		Id:          conn.GenerateConnID(),
 	}, nil
 
 }
