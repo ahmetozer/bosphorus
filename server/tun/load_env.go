@@ -13,18 +13,25 @@ import (
 )
 
 var (
+	tunIpv6Ip net.IP
+	tunIpv4Ip net.IP
+
 	tunIPv6Cidr string
-	tunIpv6Net  *net.IPNet
-	tunIpv6Ip   net.IP
+	tunIPv4Cidr string
+
+	tunIpv6Net *net.IPNet
+	tunIpv4Net *net.IPNet
 )
 
 func init() {
 
 	envIpv6Cidr()
+	envIpv4Cidr()
+
 }
 
 func envIpv6Cidr() {
-	tunIPv6Cidr := os.Getenv("TUN_IPV6_CIDR")
+	tunIPv6Cidr = os.Getenv("TUN_IPV6_CIDR")
 	var err error
 	if tunIPv6Cidr == "" {
 		id := conn.GenerateConnID()
@@ -50,9 +57,31 @@ func envIpv6Cidr() {
 		log.Fatalf("Error cidrSize: %s\n", err)
 	}
 	if cidrSize > 80 {
-		log.Fatalf("TUN_IPV6_CIDR '%d' size is low. cidr range must bigger than 80\n", cidrSize)
+		log.Fatalf("TUN_IPV6_CIDR '%d' size is low. cidr range must bigger or equal to 80\n", cidrSize)
 	}
 
 	log.Printf("TUN_IPV6_CIDR: %s/%s\n", &tunIpv6Net.IP, s[1])
 
+}
+
+func envIpv4Cidr() {
+	tunIPv4Cidr = os.Getenv("TUN_IPV4_CIDR")
+	var err error
+	if tunIPv4Cidr == "" {
+		tunIPv4Cidr = "10.90.0.1/24"
+		log.Printf("TUN_IPV4_CIDR is not asigned, auto value used\n")
+	}
+
+	tunIpv4Ip, tunIpv4Net, err = net.ParseCIDR(tunIPv4Cidr)
+	if err != nil {
+		log.Fatalf("Error: %s", err)
+	}
+
+	s := strings.Split(tunIPv4Cidr, "/")
+	cidrSize, _ := strconv.Atoi(s[1])
+	if cidrSize > 24 {
+		log.Fatalf("TUN_IPV4_CIDR '%d' size is low. cidr range must bigger or equal to 24\n", cidrSize)
+	}
+
+	log.Printf("TUN_IPV4_CIDR: %s/%s", &tunIpv4Net.IP, s[1])
 }
