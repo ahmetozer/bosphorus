@@ -58,7 +58,7 @@ func envIpv6Cidr() {
 	if err != nil {
 		log.Fatalf("Error cidrSize: %s\n", err)
 	}
-	if cidrSize > 80 {
+	if cidrSize > 126 {
 		log.Fatalf("TUN_IPV6_CIDR '%d' size is low. cidr range must bigger or equal to 80\n", cidrSize)
 	}
 

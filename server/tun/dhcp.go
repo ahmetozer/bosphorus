@@ -1,7 +1,6 @@
 package tun
 
 import (
-	"encoding/binary"
 	"errors"
 	"net"
 )
@@ -13,24 +12,26 @@ type dhcp struct {
 
 func dhcpRelease(clientNumber uint32) (dhcp, error) {
 
-	b := make([]byte, 4)
-	copy(b, tunIpv4Net.IP[:])
-
 	var release dhcp
 	if clientNumber == 0 {
-		return dhcp{}, errors.New("there is no empty ipv4 address")
+		return dhcp{}, errors.New("there is no empty ip addresses")
 	}
 
-	tt := binary.BigEndian.Uint32(b)
-	binary.BigEndian.PutUint32(b, tt+clientNumber)
+	ipv4 := IpUint64Add(tunIpv4Net.IP.To16(), uint64(clientNumber))
 
-	if tunIpv4Net.Contains(b) {
-		release.ipv4 = b
+	if tunIpv4Net.Contains(ipv4) {
+		release.ipv4 = ipv4.To4()
 	} else {
 		return dhcp{}, errors.New("created ip is not cidr range, out of ipv4")
 	}
 
-	return release, nil
+	ipv6 := IpUint64Add(tunIpv6Net.IP, uint64(clientNumber))
+	if tunIpv4Net.Contains(ipv6) {
+		release.ipv6 = ipv6
+		return release, nil
+	}
+
+	return dhcp{}, errors.New("created ip is not cidr range, out of ipv6")
 
 }
 
