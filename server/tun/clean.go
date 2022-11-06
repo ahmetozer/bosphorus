@@ -9,7 +9,7 @@ import (
 	"golang.org/x/net/websocket"
 )
 
-func clean(cliconn conn.ConnectionString, wsconn *websocket.Conn, link netlink.Link) {
+func clean(cliconn conn.ConnectionString, wsconn *websocket.Conn, link netlink.Link, clientNumber uint32) {
 	for ConnectionStat[cliconn.Id] == ClientCreated || ConnectionStat[cliconn.Id] == ClientCreatedAndUsed || ConnectionStat[cliconn.Id] == ClientCreatedAndUsedButDied {
 		time.Sleep(30 * time.Second)
 		if ConnectionStat[cliconn.Id] == ClientNotCreated {
@@ -34,5 +34,8 @@ func clean(cliconn conn.ConnectionString, wsconn *websocket.Conn, link netlink.L
 	delete(networkInterface, cliconn.Id)
 	delete(ConnectionStat, cliconn.Id)
 	delete(wsInterface, cliconn.Id)
+
+	// This is used for ip release
+	client[clientNumber] = false
 
 }

@@ -11,7 +11,9 @@ import (
 	"golang.org/x/net/websocket"
 )
 
-func create(cliconn conn.ConnectionString, wsconn *websocket.Conn) (netlink.Link, error) {
+func create(cliconn conn.ConnectionString, wsconn *websocket.Conn, clientNumber uint32) (netlink.Link, error) {
+	// allocate Ip
+	client[clientNumber] = true
 	var err error
 	config := water.Config{
 		DeviceType: water.TUN,
@@ -44,6 +46,7 @@ func create(cliconn conn.ConnectionString, wsconn *websocket.Conn) (netlink.Link
 	}
 
 	netlink.LinkSetUp(link)
+	dhcpRelease(clientNumber)
 	netlink.AddrAdd(link, &netlink.Addr{IPNet: &net.IPNet{IP: net.ParseIP("10.0.3.1"), Mask: net.CIDRMask(24, 32)}})
 
 	return link, nil

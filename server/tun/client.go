@@ -61,8 +61,9 @@ func HandleClient(wsconn *websocket.Conn) {
 	log.Printf("new tun connection %s %s", cliconn.Id, ConnectionStat[cliconn.Id].String())
 
 	if ConnectionStat[cliconn.Id] == ClientNotCreated {
-		link, err := create(cliconn, wsconn)
-		defer clean(cliconn, wsconn, link)
+		clientNumber := findSpaceClient()
+		link, err := create(cliconn, wsconn, clientNumber)
+		defer clean(cliconn, wsconn, link, clientNumber)
 
 		if err != nil {
 			log.Println("error while creating tun interface", err)

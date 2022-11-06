@@ -13,6 +13,8 @@ import (
 )
 
 var (
+	client []bool
+
 	tunIpv6Ip net.IP
 	tunIpv4Ip net.IP
 
@@ -68,8 +70,8 @@ func envIpv4Cidr() {
 	tunIPv4Cidr = os.Getenv("TUN_IPV4_CIDR")
 	var err error
 	if tunIPv4Cidr == "" {
-		tunIPv4Cidr = "10.90.0.1/24"
-		log.Printf("TUN_IPV4_CIDR is not asigned, auto value used\n")
+		tunIPv4Cidr = "10.90.2.4/24"
+		log.Printf("TUN_IPV4_CIDR is not asigned, default value used\n")
 	}
 
 	tunIpv4Ip, tunIpv4Net, err = net.ParseCIDR(tunIPv4Cidr)
@@ -79,9 +81,12 @@ func envIpv4Cidr() {
 
 	s := strings.Split(tunIPv4Cidr, "/")
 	cidrSize, _ := strconv.Atoi(s[1])
-	if cidrSize > 24 {
-		log.Fatalf("TUN_IPV4_CIDR '%d' size is low. cidr range must bigger or equal to 24\n", cidrSize)
+	if cidrSize >= 32 {
+		log.Fatalf("TUN_IPV4_CIDR '%d' size is too low. recommend cidr equal or bigger then 24\n", cidrSize)
 	}
+	ipAddresses := 2 << (32 - cidrSize - 1)
+	client = make([]bool, ipAddresses)
+	client[0] = true // Allocate for server
 
-	log.Printf("TUN_IPV4_CIDR: %s/%s", &tunIpv4Net.IP, s[1])
+	log.Printf("TUN_IPV4_CIDR: %s/%s %v", &tunIpv4Net.IP, s[1], ipAddresses)
 }

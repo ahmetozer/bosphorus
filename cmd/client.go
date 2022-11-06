@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"flag"
-	"runtime"
 	"sync"
 
 	"github.com/ahmetozer/wstransit/client/flags"
@@ -12,7 +11,6 @@ import (
 
 func Client(args []string) {
 
-	println(runtime.GOOS)
 	f := flag.NewFlagSet("client", flag.ExitOnError)
 	f.Var(&flags.TcpFlag, "tcp", "tunnel example localhost:8022;ahmet.engineer;127.0.0.1:22")
 	//f.Var(&flags.TcpRawFlag, "tcpraw", "tunnel example localhost:8022;ahmet.engineer;127.0.0.1:22")
