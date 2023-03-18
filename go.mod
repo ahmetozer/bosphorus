@@ -2,7 +2,7 @@ module github.com/ahmetozer/wstransit
 
 go 1.18
 
-require golang.org/x/net v0.0.0-20221014081412-f15817d10f9b
+require golang.org/x/net v0.7.0
 
 require (
 	github.com/vishvananda/netlink v1.1.0
@@ -11,5 +11,5 @@ require (
 
 require (
 	github.com/songgao/water v0.0.0-20200317203138-2b4b6d7c09d8
-	golang.org/x/sys v0.0.0-20220728004956-3c1f35247d10 // indirect
+	golang.org/x/sys v0.5.0 // indirect
 )
