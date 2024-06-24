@@ -7,8 +7,8 @@ import (
 	"os"
 	"sync"
 
-	"github.com/ahmetozer/wstransit/client/ws"
-	"github.com/ahmetozer/wstransit/pkg/conn"
+	"github.com/ahmetozer/bosphorus/client/ws"
+	"github.com/ahmetozer/bosphorus/pkg/conn"
 	"golang.org/x/net/websocket"
 )
 

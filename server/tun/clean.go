@@ -4,7 +4,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/ahmetozer/wstransit/pkg/conn"
+	"github.com/ahmetozer/bosphorus/pkg/conn"
 	"github.com/vishvananda/netlink"
 	"golang.org/x/net/websocket"
 )

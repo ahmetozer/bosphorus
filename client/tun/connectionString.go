@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/ahmetozer/wstransit/pkg/conn"
+	"github.com/ahmetozer/bosphorus/pkg/conn"
 )
 
 func parseTUNConnectionString(config string) (conn.ConnectionString, error) {

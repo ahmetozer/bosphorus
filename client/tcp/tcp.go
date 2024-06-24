@@ -6,8 +6,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/ahmetozer/wstransit/client/flags"
-	"github.com/ahmetozer/wstransit/pkg/conn"
+	"github.com/ahmetozer/bosphorus/client/flags"
+	"github.com/ahmetozer/bosphorus/pkg/conn"
 )
 
 const (

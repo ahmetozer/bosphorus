@@ -4,7 +4,7 @@ import (
 	"log"
 	"sync"
 
-	"github.com/ahmetozer/wstransit/client/flags"
+	"github.com/ahmetozer/bosphorus/client/flags"
 )
 
 func TunStart(a flags.ArrFlag, wg *sync.WaitGroup) {

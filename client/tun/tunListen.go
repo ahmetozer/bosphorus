@@ -8,8 +8,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ahmetozer/wstransit/client/ws"
-	"github.com/ahmetozer/wstransit/pkg/conn"
+	"github.com/ahmetozer/bosphorus/client/ws"
+	"github.com/ahmetozer/bosphorus/pkg/conn"
 	"github.com/songgao/water"
 	"golang.org/x/net/websocket"
 )

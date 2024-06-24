@@ -1,4 +1,4 @@
-module github.com/ahmetozer/wstransit
+module github.com/ahmetozer/bosphorus
 
 go 1.18
 

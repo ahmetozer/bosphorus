@@ -1,9 +1,9 @@
 package server
 
 import (
-	"github.com/ahmetozer/wstransit/pkg/conn"
-	tcpClient "github.com/ahmetozer/wstransit/server/tcp/client"
-	"github.com/ahmetozer/wstransit/server/tun"
+	"github.com/ahmetozer/bosphorus/pkg/conn"
+	tcpClient "github.com/ahmetozer/bosphorus/server/tcp/client"
+	"github.com/ahmetozer/bosphorus/server/tun"
 	"golang.org/x/net/websocket"
 )
 

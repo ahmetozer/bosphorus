@@ -6,14 +6,14 @@ import (
 	"os"
 	"time"
 
-	"github.com/ahmetozer/wstransit/server"
+	"github.com/ahmetozer/bosphorus/server"
 	"golang.org/x/net/websocket"
 )
 
 func Server(args []string) {
 
 	if os.Getenv("ADDR") == "" {
-		os.Setenv("ADDR", ":80")
+		os.Setenv("ADDR", ":8080")
 	}
 	httpSrv := &http.Server{
 		ReadTimeout:       1 * time.Second,

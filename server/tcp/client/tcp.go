@@ -6,7 +6,7 @@ import (
 	"net"
 	"time"
 
-	"github.com/ahmetozer/wstransit/pkg/conn"
+	"github.com/ahmetozer/bosphorus/pkg/conn"
 	"golang.org/x/net/websocket"
 )
 

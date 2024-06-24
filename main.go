@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/ahmetozer/wstransit/cmd"
+	"github.com/ahmetozer/bosphorus/cmd"
 )
 
 func main() {

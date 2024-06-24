@@ -5,9 +5,13 @@ import (
 	"runtime"
 	"sync"
 
-	"github.com/ahmetozer/wstransit/client/flags"
-	"github.com/ahmetozer/wstransit/client/tcp"
-	"github.com/ahmetozer/wstransit/client/tun"
+	"github.com/ahmetozer/bosphorus/client/flags"
+	"github.com/ahmetozer/bosphorus/client/tcp"
+	"github.com/ahmetozer/bosphorus/client/tun"
+)
+
+const (
+	BuildVersion = "0.0.0"
 )
 
 func Client(args []string) {

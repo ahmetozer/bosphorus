@@ -6,7 +6,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/ahmetozer/wstransit/pkg/conn"
+	"github.com/ahmetozer/bosphorus/pkg/conn"
 	"github.com/songgao/water"
 	"golang.org/x/net/websocket"
 )
