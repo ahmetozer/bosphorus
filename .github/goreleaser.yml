@@ -7,7 +7,6 @@ builds:
       - -trimpath
     goos:
       - linux
-      - freebsd
       - darwin
       - windows
     goarch:
