@@ -59,7 +59,27 @@ func handleTCPrequest(tcpConn net.Conn, c conn.ConnectionString) {
 		return
 	}
 
-	go io.Copy(wsClient, tcpConn)
+	done := make(chan struct{})
 
-	io.Copy(tcpConn, wsClient)
+	defer wsClient.Close()
+	defer tcpConn.Close()
+	connActive := true
+	go func() {
+		defer close(done)
+		buf := make([]byte, conn.BufferSize)
+		_, err := io.CopyBuffer(wsClient, tcpConn, buf)
+		if err != nil && connActive {
+			log.Printf("error copying from local to remote: %v", err)
+		}
+		connActive = false
+	}()
+
+	buf := make([]byte, conn.BufferSize)
+	_, err = io.CopyBuffer(tcpConn, wsClient, buf)
+	if err != nil && connActive {
+		log.Printf("error copying from remote to local: %v", err)
+	}
+	connActive = false
+
+	<-done
 }

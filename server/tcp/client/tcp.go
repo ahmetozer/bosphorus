@@ -92,9 +92,33 @@ func HandleClient(wsconn *websocket.Conn) {
 	ConnectionStat[cliconn.Id] = ClientCreatedAndUsed
 
 	// tcp client to web socket data flow
-	go io.Copy(Connection[cliconn.Id], wsconn)
+	// go io.Copy(Connection[cliconn.Id], wsconn)
+	// io.Copy(wsconn, Connection[cliconn.Id])
 
-	io.Copy(wsconn, Connection[cliconn.Id])
+	done := make(chan struct{})
+
+	defer wsconn.Close()
+	// defer Connection[cliconn.Id].Close() Do not enable this, othervise reuse mechanism will not work
+	connActive := true
+
+	go func() {
+		defer close(done)
+		buf := make([]byte, conn.BufferSize)
+		_, err := io.CopyBuffer(wsconn, Connection[cliconn.Id], buf)
+		if err != nil && connActive {
+			log.Printf("error copying from local to remote: %v", err)
+		}
+		connActive = false
+	}()
+
+	buf := make([]byte, conn.BufferSize)
+	_, err = io.CopyBuffer(Connection[cliconn.Id], wsconn, buf)
+	if err != nil && connActive {
+		log.Printf("error copying from remote to local: %v", err)
+	}
+	connActive = false
+
+	<-done
 
 	log.Printf("websocket for tcp tunnel end %s %s %s\n", cliconn.Id, Connection[cliconn.Id].LocalAddr().String(), cliconn.RemmoteAddr)
 
